@@ -1,2 +1,3 @@
-# galaxy
-Prototype CodeSparta Ansible Galaxy Collection
+# Ansible Collection - codesparta.collector
+
+Documentation for the collection.
