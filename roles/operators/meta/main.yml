@@ -9,5 +9,4 @@ galaxy_info:
     versions:
     - v00.21.0220
   galaxy_tags: []
-dependencies:
-  - containers.podman.podman_container
+dependencies: []
