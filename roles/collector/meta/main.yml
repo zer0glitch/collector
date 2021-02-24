@@ -1,5 +1,5 @@
 galaxy_info:
-  author: CodeSparta | Powered by Red Hat Consulting & Developed in partnership with the Sparta FOSS Community
+  author: CodeSparta
   description: Kubernetes Operator Dependency & Artifact Gathering for Disconnected or Restricted Network Deployment.
   company: Red Hat Consulting + Open Source Community
   license: GPL-3.0-only
@@ -9,4 +9,5 @@ galaxy_info:
     versions:
     - v00.21.0220
   galaxy_tags: []
-dependencies: []
+dependencies:
+  - containers.podman.podman_container
