@@ -1,10 +1,10 @@
-namespace: usrbinkat
+namespace: sparta
 name: collector
-version: 0.0.11
+version: 0.0.1
 readme: README.md
 authors:
 - Kat Morgan <usrbinkat@codectl.io>
-description: 'prototype codesparta collector collection'
+description: 'CodeSparta artifact collector automation'
 tags:
   - iac
   - upi

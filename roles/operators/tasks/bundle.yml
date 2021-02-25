@@ -1,9 +1,9 @@
 ---
 - name: '{{ plugin.name }} | copy | Load manifests into bundle'
   copy:
-    remote_src: no
     src: '{{ dir.tmp }}/manifests'
     dest: '{{ dir.platform }}/mirror/'
+    remote_src: no
     mode: '0775'
   with_dict:
     - "{{ operators }}"
