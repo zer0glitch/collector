@@ -1,5 +1,15 @@
 ---
-- name: "{{ plugin.name }} | role:{{ plugin.role }} | unarchive:openshift-client-linux.tar.gz | Download OCP Client & Install Binaries: {{ openshift.release }}"
+- name: '{{ plugin.name }} | file:directory | Create Artifact Directory Tree' 
+  file:
+    state: directory
+    path: '{{ item }}'
+    recurse: no
+    mode: '0666'
+  with_items:
+    - '{{ dir.platform }}'
+    - '{{ dir.bin }}'
+
+- name: "{{ plugin.name }} | unarchive:openshift-client-linux.tar.gz | Download OCP Client & Install Binaries: {{ openshift.release }}"
   unarchive:
     src: "{{ openshift.release_url }}/{{ openshift.release }}/{{ item }}-linux.tar.gz"
     dest: '{{ dir.bin }}'
@@ -9,7 +19,7 @@
     - openshift-client
     - openshift-install
 
-- name: "{{ plugin.name }} | role:{{ plugin.role }} | set_fact:openshift_version | Register OpenShift Client Version"
+- name: "{{ plugin.name }} | set_fact:openshift_version | Register OpenShift Client Version"
   set_fact:
     openshift_version: "{{ oc_client_output_json['releaseClientVersion'] }}"
   vars:
