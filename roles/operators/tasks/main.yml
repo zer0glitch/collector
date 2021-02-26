@@ -1,7 +1,74 @@
 ---
-- include_tasks: tree.yml            # Create required directory tree
-- include_tasks: tmpl.yml            # Template configs
-- include_tasks: dependencies.yml    # Pull OpenShift oc
-- include_tasks: operators.yml       # Build & Push Catalog Index Images && Write Manivests && Mirror Images with wall-e opm python wrapper
-# include_tasks: bundle.yml          # Bundle artifacts into CloudCtl compliant archive for manual carry
-# when: koffer.bundle
+################################################################################
+# Directory tree handling
+- name: '{{ plugin.name }} | file:[absent,directory] | Prepare staging directory'
+  file:
+    path: '{{ dir.tmp }}/manifests/{{ item.key }}-catalog-index-manifests'
+    state: absent
+  with_dict:
+    - "{{ operators }}"
+
+- name: '{{ plugin.name }} | file:directory | Create Koffer Directory Tree' 
+  file:
+    path: '{{ item }}'
+    state: directory
+    mode: '0744'
+    recurse: no
+  with_items: 
+    - '{{ dir.tmp }}'
+    - '{{ dir.mirror }}'
+    - '{{ dir.platform }}'
+
+- name: '{{ plugin.name }} | file:directory | Create Koffer Artifact Staging Directories' 
+  file:
+    path: '{{ dir.tmp }}/manifests/{{ item.key }}-catalog-index-manifests'
+    state: directory
+    mode: '0744'
+    recurse: no
+  with_dict:
+    - "{{ operators }}"
+
+################################################################################
+# Template operator config files
+- name: '{{ plugin.name }} | copy:catalog-source-template | Stage catalog subscription template'
+  copy:
+    src: 'catalog-source-template'
+    dest: '{{ dir.tmp }}/catalog-source-template'
+    mode: '0744'
+  with_dict:
+    - "{{ operators }}"
+  when:
+    - item.key is defined and item.key != ""
+    - item.value.list is defined and item.value.list != "null" and item.value.list != ""
+    - item.value.image is defined and item.value.image != ""
+    - item.value.id is defined and item.value.id|int > 0
+
+- name: '{{ plugin.name }} | copy:image-content-source-template | Stage imageContentSourcePolicy template'
+  copy:
+    src: 'image-content-source-template'
+    dest: '{{ dir.tmp }}/image-content-source-template'
+    mode: '0744'
+  with_dict:
+    - "{{ operators }}"
+  when:
+    - item.key is defined and item.key != ""
+    - item.value.list is defined and item.value.list != "null" and item.value.list != ""
+    - item.value.image is defined and item.value.image != ""
+    - item.value.id is defined and item.value.id|int > 0
+
+- name: '{{ plugin.name }} | copy:known-bad-images | Stage known-bad-images file'
+  copy:
+    src: 'known-bad-images'
+    dest: '{{ dir.tmp }}/known-bad-images'
+    mode: '0744'
+  with_dict:
+    - "{{ operators }}"
+  when:
+    - item.key is defined and item.key != ""
+    - item.value.list is defined and item.value.list != "null" and item.value.list != ""
+    - item.value.image is defined and item.value.image != ""
+    - item.value.id is defined and item.value.id|int > 0
+
+################################################################################
+# Run operator tasks
+- include_tasks: operators.yml

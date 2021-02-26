@@ -1,0 +1,14 @@
+---
+plugin:
+  role: 'dependencies'
+  name: 'Koffer Artifact Collector | Red Hat Consulting | CodeSparta/collector'
+koffer:
+  date: "{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}"
+openshift:
+  release: "{{  lookup('env', 'VERSION')     | default('latest', true) }}"
+  release_url: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp"
+  rhcos_url: "https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/latest/latest"
+dir:
+  platform: '/root/platform'
+  meta: '/bin/root/platform/meta'
+  bin: '/bin/root/platform/bin'

@@ -3,5 +3,3 @@
 - include_tasks: git.yml          # Pull git repos
 - include_tasks: templates.yml    # Place basic template of deploy config
 - include_tasks: shaman.yml       # Workaround: extra terraform init
-# include_tasks: bundle.yml       # Bundle artifacts for airgap pivot
-# when: koffer.bundle
