@@ -4,12 +4,12 @@ plugin:
   name: 'Koffer Artifact Collector | Red Hat Consulting | CodeSparta/sparta-iac'
 koffer:
   docker_config: '/root/.docker/config.json'
-  bundle: "{{   lookup('env', 'BUNDLE')  | default('true', true) | bool }}"
+  bundle: "{{   lookup('env', 'BUNDLE')   | default('true', true) | bool }}"
+  omnibus: "{{  lookup('env', 'OMNIBUS')  | default('true',  true) | bool  }}"
   date: "{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}"
-  omnibus: "{{  lookup('env', 'OMNIBUS')    | default('true',  true) | bool  }}"
 sparta:
-  version: "{{  lookup('env', 'VERSION') | default('master', true) }}"
-  provider: "{{ lookup('env', 'PROVIDER')    | default('aws',    true) }}"
+  version: "{{  lookup('env', 'VERSION')  | default('master', true) }}"
+  provider: "{{ lookup('env', 'PROVIDER') | default('aws',    true) }}"
 dir:
   tmp: '/tmp/koffer'
   iac: '/root/platform/iac'
