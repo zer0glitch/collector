@@ -3,6 +3,7 @@ plugin:
   role: 'sparta'
   name: 'Koffer Artifact Collector | Red Hat Consulting | CodeSparta/sparta-iac'
 koffer:
+  plugin: 'sparta'
   docker_config: '/root/.docker/config.json'
   bundle: "{{   lookup('env', 'BUNDLE')   | default('true', true) | bool }}"
   omnibus: "{{  lookup('env', 'OMNIBUS')  | default('true',  true) | bool  }}"
