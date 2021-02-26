@@ -1,32 +1,32 @@
 ---
-- name: '{{ plugin.name }} | file:state.absent | Purge pre-existing bundles'
+- name: '{{ plugin.role }} | file:state.absent | Purge pre-existing bundles'
   file:
     path: '{{ item }}'
     state: absent
   with_items:
-    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.name }}-{{ sparta.provider }}-{{ openshift_version }}.tar'
-    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.name }}-{{ sparta.provider }}-{{ openshift_version }}.tar.sha256'
+    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.role }}-{{ sparta.provider }}-{{ openshift_version }}.tar'
+    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.role }}-{{ sparta.provider }}-{{ openshift_version }}.tar.sha256'
 
-- name: '{{ plugin.name }} | shell:tar.cvf | Build Artifact Bundle'
+- name: '{{ plugin.role }} | shell:tar.cvf | Build Artifact Bundle'
   shell:
     cmd: |
       tar -cSv -f {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar -C /root platform
   args:
     creates: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar'
     
-- name: '{{ plugin.name }} | command:sha256sum | Write SHA256 checksum for bundle'
+- name: '{{ plugin.role }} | command:sha256sum | Write SHA256 checksum for bundle'
   command: 'sha256sum {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar.sha256'
   args:
     chdir: '{{ dir.bundle }}'
   register: bundle_sha256
     
-- name: '{{ plugin.name }} | copy:content.bundle_sha | Write SHA256 sum File | {{ bundle_sha256.stdout }}'
+- name: '{{ plugin.role }} | copy:content.bundle_sha | Write SHA256 sum File | {{ bundle_sha256.stdout }}'
   copy:
     dest: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar.sha256'
     content: '{{ bundle_sha256.stdout }}'
     mode: 0666
 
-- name: '{{ plugin.name }} | file:directory.mode.0777 | Opem Permissions on Bundle Files'
+- name: '{{ plugin.role }} | file:directory.mode.0777 | Opem Permissions on Bundle Files'
   file:
     mode: 0777
     state: directory
