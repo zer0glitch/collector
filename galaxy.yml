@@ -17,7 +17,7 @@ dependencies:
 license:
 - GPL-3.0-only
 repository: http://github.com/codesparta/collector
-issues: http://github.com/codesparta/collector
+issues: https://github.com/CodeSparta/collector/issues
 documentation: http://codectl.io
 homepage: http://codectl.io
 build_ignore:
