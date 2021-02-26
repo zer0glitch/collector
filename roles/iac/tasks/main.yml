@@ -1,5 +1,52 @@
 ---
-- include_tasks: tree.yml         # Create base directory tree
-- include_tasks: git.yml          # Pull git repos
-- include_tasks: templates.yml    # Place basic template of deploy config
-- include_tasks: shaman.yml       # Workaround: extra terraform init
+################################################################################
+# Directory tree layout
+- name: '{{ plugin.name }} | role:{{ plugin.role }} | file:directory | Create Artifact Directory Tree' 
+  file:
+    state: directory
+    path: '{{ item }}'
+    recurse: no
+    mode: '0666'
+  with_items:
+    - '{{ dir.tmp }}'
+    - '{{ dir.iac }}'
+    - '{{ dir.meta }}'
+    - '{{ dir.bundle }}'
+    - '{{ dir.platform }}'
+
+################################################################################
+# Git repo clone & tf init tasks
+- name: '{{ plugin.name }} | role:{{ plugin.role }} | git:clone | Clone Git Dependencies' 
+  git:
+    clone: yes
+    force: yes
+    update: true
+    repo: "{{ item.value.url }}"
+    version: "{{ item.value.ref }}"
+    dest: "{{ item.value.dest }}"
+  with_dict:
+    - "{{ git }}"
+  when:
+    - item.value.url is defined
+
+- name: '{{ plugin.name }} | role:{{ plugin.role }} | shell:terraform.init | Initilize terraform modules'
+  shell: 
+    cmd: terraform init
+    chdir: "{{ item.value.dest }}"
+  with_dict:
+    - "{{ git }}"
+  when:
+    - item.value.tfinit and item.value.url is defined
+
+################################################################################
+# File Templating
+- name: '{{ plugin.name }} | role:{{ plugin.role }} | template | Stage Sparta OpenShift Deploy Config' 
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '0755'
+  loop: 
+    - { src: "ansible/cluster-vars.yml.j2", dest: "{{ dir.iac }}/cluster-vars.yml"}
+
+################################################################################
+- include_tasks: shaman.yml                   # Workaround: extra terraform init
