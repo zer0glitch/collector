@@ -9,6 +9,7 @@ koffer:
   omnibus: "{{  lookup('env', 'OMNIBUS')    | default('true',  true) | bool  }}"
 sparta:
   version: "{{  lookup('env', 'VERSION') | default('master', true) }}"
+  provider: "{{ lookup('env', 'PROVIDER')    | default('aws',    true) }}"
 dir:
   tmp: '/tmp/koffer'
   iac: '/root/platform/iac'
@@ -23,12 +24,12 @@ dir:
   platform: '/root/platform'
 git:
   sparta:
-    tfinit: False
-    dest: '{{ dir.iac }}/sparta'
+    dest: '{{ dir.iac }}/openshift'
     url: 'https://github.com/CodeSparta/sparta.git'
-    ref: "{{   lookup('env', 'TPDK_VERSION')  | default('master', true) }}"
+    ref: "{{   lookup('env', 'SPARTA_VERSION')  | default('master', true) }}"
+    tfinit: False
   shaman:
-    tfinit: True
     dest: '{{ dir.iac }}/shaman'
     url: 'https://github.com/CodeSparta/shaman.git'
-    ref: "{{   lookup('env', 'TPDK_VERSION')  | default('master', true) }}"
+    ref: "{{   lookup('env', 'SPARTA_VERSION')  | default('master', true) }}"
+    tfinit: True

@@ -4,25 +4,25 @@
     path: '{{ item }}'
     state: absent
   with_items:
-    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.name }}-{{ openshift.provider }}-{{ openshift_version }}.tar'
-    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.name }}-{{ openshift.provider }}-{{ openshift_version }}.tar.sha256'
+    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.name }}-{{ sparta.provider }}-{{ openshift_version }}.tar'
+    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.name }}-{{ sparta.provider }}-{{ openshift_version }}.tar.sha256'
 
 - name: '{{ plugin.name }} | shell:tar.cvf | Build Artifact Bundle'
   shell:
     cmd: |
-      tar -cSv -f {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ openshift.provider }}-{{ openshift_version }}.tar -C /root platform
+      tar -cSv -f {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar -C /root platform
   args:
-    creates: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ openshift.provider }}-{{ openshift_version }}.tar'
+    creates: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar'
     
 - name: '{{ plugin.name }} | command:sha256sum | Write SHA256 checksum for bundle'
-  command: 'sha256sum {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ openshift.provider }}-{{ openshift_version }}.tar.sha256'
+  command: 'sha256sum {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar.sha256'
   args:
     chdir: '{{ dir.bundle }}'
   register: bundle_sha256
     
 - name: '{{ plugin.name }} | copy:content.bundle_sha | Write SHA256 sum File | {{ bundle_sha256.stdout }}'
   copy:
-    dest: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ openshift.provider }}-{{ openshift_version }}.tar.sha256'
+    dest: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar.sha256'
     content: '{{ bundle_sha256.stdout }}'
     mode: 0666
 
