@@ -113,3 +113,18 @@
     - koffer.mirror or koffer.bundle
     - not koffer.walle
   register: catalog_mirrored
+
+- name: '{{ plugin.name }} | copy | Load manifests into bundle'
+  copy:
+    src: '{{ dir.tmp }}/manifests'
+    dest: '{{ dir.platform }}/mirror/'
+    remote_src: no
+    mode: '0775'
+  with_dict:
+    - "{{ operators }}"
+  when:
+    - item.key is defined and item.key != ""
+    - item.value.list is defined and item.value.list != "null" and item.value.list != ""
+    - item.value.image is defined and item.value.image != ""
+    - item.value.id is defined and item.value.id|int > 0
+
