@@ -15,7 +15,7 @@
     creates: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar'
     
 - name: '{{ plugin.role }} | command:sha256sum | Write SHA256 checksum for bundle'
-  command: 'sha256sum {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar.sha256'
+  command: 'sha256sum {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version }}.tar'
   args:
     chdir: '{{ dir.bundle }}'
   register: bundle_sha256
