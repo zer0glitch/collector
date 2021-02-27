@@ -1,0 +1,64 @@
+---
+- name: '{{ plugin.name }} | file:state.directory | Create Directory Structure' 
+  file:
+    mode: '0644'
+    recurse: false
+    state: directory
+    path: '{{ item }}'
+  with_items:
+    - '{{ dir.tmp }}'
+    - '{{ dir.iac }}'
+    - '{{ dir.bin }}'
+    - '{{ dir.usr }}'
+    - '{{ dir.meta }}'
+    - '{{ dir.seed }}'
+    - '{{ dir.nginx }}'
+    - '{{ dir.mirror }}'
+    - '{{ dir.images }}'
+    - '{{ dir.secrets }}'
+    - '{{ dir.registry }}'
+    - '{{ dir.platform }}'
+    - '{{ dir.tmp }}/bundle'
+
+- name: '{{ plugin.name }} | git:clone | Clone Git Repos' 
+  git:
+    clone: yes
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.ref }}"
+    update: true
+    force: yes
+  with_items:
+    - "{{ git }}"
+
+- name: '{{ plugin.name }} | command:skopeo.copy | Pull Auxiliary CloudCTL Pod Images' 
+  command:
+    argv:
+      - skopeo
+      - copy
+      - 'docker://{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
+      - 'docker://{{ koffer.dest }}/cloudctl/{{ item.name }}:{{ item.tag }}'
+  with_items:
+    - "{{ cloudctl_seed }}"
+    - "{{ cloudctl_images }}"
+
+- name: '{{ plugin.name }} | command:skopeo.copy | Pull CloudCTL Pod Seed Images' 
+  command:
+    argv:
+      - skopeo
+      - copy
+      - 'docker://{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
+      - 'docker-archive://{{ item.path }}/image-{{ item.name }}-{{ item.tag }}.tar'
+      - --additional-tag
+      - '{{ item.uri }}/{{ item.name }}:{{ item.tag }}'
+    creates: "{{ dir.seed }}/image-{{ item.name }}-{{ item.tag }}.tar"
+  with_items:
+    - "{{ cloudctl_seed }}"
+
+- name: '{{ plugin.name }} | template | Stage CloudCtl Startup Assets' 
+  template:
+    src: '{{ item.src }}'
+    dest: '{{ item.dest }}'
+    mode: '{{ item.mode }}'
+  with_items:
+    - { mode: '0644', src: 'registry/etc-docker-registry-config.yml.j2', dest: '/root/platform/mirror/config.yml' }

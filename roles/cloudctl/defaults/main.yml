@@ -1,0 +1,95 @@
+---
+plugin:
+  role: 'cloudctl'
+  name: 'Koffer Artifact Collector | TPDK CloudCtl | CloudCtl/cloudctl'
+koffer:
+  src: "{{  lookup('env',  'MIRROR_SRC') | default('quay.io', true) }}"
+  dest: "{{ lookup('env', 'MIRROR_DEST') | default('localhost:5000', true) }}"
+  mirror: "{{    lookup('env', 'MIRROR') | default('true',  true) | bool }}"
+  date: "{{ ansible_date_time.year }}{{ ansible_date_time.month }}{{ ansible_date_time.day }}{{ ansible_date_time.hour }}"
+  docker_config: '/root/.docker/config.json'
+dir:
+  usr: '/root'
+  tmp: '/tmp/koffer'
+  iac: '/root/platform/iac'
+  bin: '/bin/root/platform/bin'
+  meta: '/bin/root/platform/meta'
+  seed: '/root/platform/seed'
+  nginx: '/bin/root/platform/nginx'
+  koffer: '/root/koffer'
+  bundle: '/root/bundle'
+  mirror: '/root/platform/mirror'
+  images: '/root/platform/images'
+  config: '/root/cloudctl/config'
+  secrets: '/root/platform/secrets'
+  registry: '/root/platform/mirror/docker'
+  platform: '/root/platform'
+  cloudctl: '/root/cloudctl'
+cloudctl:
+  ssh:
+    enable: "{{ lookup('env', 'ENABLE_SSH') | default('true', true) }}"
+    pub_key_file: "{{ dir.user }}/.ssh/id_rsa_cloudctl.pub"
+    pub_key_str: "{{ lookup('file', '{{ cloudctl.ssh.pub_key_file }}') }}"
+    priv_key_file: "{{ dir.user }}/.ssh/id_rsa_cloudctl"
+    priv_key_str: "{{ lookup('file', '{{ cloudctl.ssh.priv_key_file }}') }}"
+  domain:
+    sub: "{{  lookup('env', 'SUB_DOMAIN')   | default('tpdk',       true) }}"
+    base: "{{ lookup('env', 'BASE_DOMAIN')  | default('codectl.io', true) }}"
+  pod:
+    name: "{{ lookup('env', 'POD_NAME') | default('cloudctl', true) }}"
+    force_replace: true
+  bundle:
+    name: 'cloudctl.tar'
+    cradle: 'koffer-bundle.tpdk-cloudctl.tar'
+    sha: 'cloudctl.tar.sha256'
+git:
+  - name: cloudctl
+    repo: 'https://github.com/CloudCtl/cloudctl.git'
+    dest: '{{ dir.cloudctl }}'
+    ref: "{{ lookup('env', 'TPDK_VERSION') | default('master', true)  }}"
+
+cloudctl_seed:
+  - name: konductor
+    tag: latest
+    uri: "{{ koffer.src }}/cloudctl"
+    path: "{{ dir.seed }}"
+  - name: registry
+    tag: latest
+    uri: "{{ koffer.src }}/cloudctl"
+    path: "{{ dir.seed }}"
+  - name: pause
+    tag: latest
+    uri: "k8s.gcr.io"
+    path: "{{ dir.seed }}"
+
+cloudctl_images:
+  - name: pause
+    tag: latest
+    uri: "k8s.gcr.io"
+  - name: pause
+    tag: 3.1
+    uri: "k8s.gcr.io"
+  - name: pause
+    tag: 3.2
+    uri: "k8s.gcr.io"
+  - name: konductor
+    tag: "latest"
+    uri: "{{ koffer.src }}/cloudctl"
+  - name: coredns
+    tag: latest
+    uri: "{{ koffer.src }}/cloudctl"
+  - name: registry
+    tag: latest
+    uri: "{{ koffer.src }}/cloudctl"
+  - name: runner
+    tag: "latest"
+    uri: "{{ koffer.src }}/cloudctl"
+  - name: nginx
+    tag: "latest"
+    uri: "{{ koffer.src }}/cloudctl"
+  - name: haproxy
+    tag: "latest"
+    uri: "{{ koffer.src }}/cloudctl"
+
+# VARS Need to depricate
+ansible_python_interpreter: auto_silent
