@@ -13,8 +13,8 @@
     path: '{{ item }}'
     state: absent
   with_items:
-    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.role }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar'
-    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.role }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar.sha256'
+    - '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar'
+    - '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar.sha256'
 
 - name: '{{ plugin.role }} | shell:tar.cvf | Build Artifact Bundle'
   shell:
