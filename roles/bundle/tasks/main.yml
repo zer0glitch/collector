@@ -1,12 +1,12 @@
 ---
-- name: '{{ plugin.role }} | file:state.directory | plateholder for future logic'
+- name: '{{ plugin.role }} | file:state.directory | Place holder for future logic'
   file:
     state: directory
     path: '{{ item }}'
+    recurse: no
     mode: '0655'
   with_items:
     - '/root/cloudctl'
-    - '{{ dir.bundle }}/koffer-bundle.{{ plugin.role }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar.sha256'
 
 - name: '{{ plugin.role }} | file:state.absent | Purge pre-existing bundles'
   file:
