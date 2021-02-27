@@ -14,7 +14,7 @@ dir:
   iac: '/root/platform/iac'
   bin: '/bin/root/platform/bin'
   meta: '/bin/root/platform/meta'
-  seed: '/root/platform/seed'
+  seed: '/root/cloudctl/seed'
   nginx: '/bin/root/platform/nginx'
   koffer: '/root/koffer'
   bundle: '/root/bundle'
