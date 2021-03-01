@@ -23,17 +23,18 @@
   args:
     creates: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar'
     
-- name: '{{ plugin.role }} | command:sha256sum | Write SHA256 checksum for bundle'
-  command: 'sha256sum {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar'
-  args:
-    chdir: '{{ dir.bundle }}'
-  register: bundle_sha256
-    
-- name: '{{ plugin.role }} | copy:content.bundle_sha | Write SHA256 sum File | {{ bundle_sha256.stdout }}'
-  copy:
-    dest: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar.sha256'
-    content: '{{ bundle_sha256.stdout }}'
-    mode: 0666
+# TODO: Fix permission denied error
+# name: '{{ plugin.role }} | command:sha256sum | Calculate SHA256 checksum'
+# command: 'sha256sum {{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar'
+# args:
+#   chdir: '{{ dir.bundle }}'
+# register: bundle_sha256
+#   
+# name: '{{ plugin.role }} | copy:content.bundle_sha | Write SHA256 sum File | {{ bundle_sha256.stdout }}'
+# copy:
+#   dest: '{{ dir.bundle }}/koffer-bundle.{{ koffer.plugin }}-{{ sparta.provider }}-{{ openshift_version | default(koffer.date) }}.tar.sha256'
+#   content: '{{ bundle_sha256.stdout }}'
+#   mode: 0666
 
 - name: '{{ plugin.role }} | file:directory.mode.0777 | Opem Permissions on Bundle Files'
   file:
