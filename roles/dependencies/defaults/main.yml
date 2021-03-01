@@ -10,5 +10,5 @@ openshift:
   rhcos_url: "https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/latest/latest"
 dir:
   platform: '/root/platform'
-  meta: '/bin/root/platform/meta'
-  bin: '/bin/root/platform/bin'
+  meta: '/root/platform/meta'
+  bin: '/root/platform/bin'

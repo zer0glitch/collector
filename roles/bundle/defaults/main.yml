@@ -14,9 +14,9 @@ sparta:
 dir:
   tmp: '/tmp/koffer'
   iac: '/root/platform/iac'
-  bin: '/bin/root/platform/bin'
-  meta: '/bin/root/platform/meta'
-  nginx: '/bin/root/platform/nginx'
+  bin: '/root/platform/bin'
+  meta: '/root/platform/meta'
+  nginx: '/root/platform/nginx'
   koffer: '/root/koffer'
   bundle: '/root/bundle'
   mirror: '/root/platform/mirror'
