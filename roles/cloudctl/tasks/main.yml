@@ -1,4 +1,22 @@
 ---
+- name: '{{ plugin.name }} | file:absent | Prep Git repo directory' 
+  file:
+    state: absent
+    path: "{{ item.dest }}"
+  with_items:
+    - "{{ git }}"
+
+- name: '{{ plugin.name }} | git:clone | Clone Git Repos' 
+  git:
+    clone: yes
+    repo: "{{ item.repo }}"
+    dest: "{{ item.dest }}"
+    version: "{{ item.ref }}"
+    update: true
+    force: yes
+  with_items:
+    - "{{ git }}"
+
 - name: '{{ plugin.name }} | file:state.directory | Create Directory Structure' 
   file:
     mode: '0644'
@@ -19,24 +37,6 @@
     - '{{ dir.registry }}'
     - '{{ dir.platform }}'
     - '{{ dir.tmp }}/bundle'
-
-- name: '{{ plugin.name }} | file:absent | Prep Git repo directory' 
-  file:
-    state: absent
-    path: "{{ item.dest }}"
-  with_items:
-    - "{{ git }}"
-
-- name: '{{ plugin.name }} | git:clone | Clone Git Repos' 
-  git:
-    clone: yes
-    repo: "{{ item.repo }}"
-    dest: "{{ item.dest }}"
-    version: "{{ item.ref }}"
-    update: true
-    force: yes
-  with_items:
-    - "{{ git }}"
 
 - name: '{{ plugin.name }} | command:skopeo.copy | Pull Auxiliary CloudCTL Pod Images' 
   command:
