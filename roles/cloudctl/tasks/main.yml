@@ -20,6 +20,13 @@
     - '{{ dir.platform }}'
     - '{{ dir.tmp }}/bundle'
 
+- name: '{{ plugin.name }} | file:absent | Prep Git repo directory' 
+  file:
+    state: absent
+    path: "{{ item.dest }}"
+  with_items:
+    - "{{ git }}"
+
 - name: '{{ plugin.name }} | git:clone | Clone Git Repos' 
   git:
     clone: yes
