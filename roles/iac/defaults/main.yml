@@ -26,9 +26,9 @@ git:
     tfinit: False
     dest: '{{ dir.iac }}/sparta'
     url: 'https://github.com/CodeSparta/sparta.git'
-    ref: "{{   lookup('env', 'TPDK_VERSION')  | default('master', true) }}"
+    ref: "{{   lookup('env', 'SPARTA_VERSION')  | default('master', true) }}"
   shaman:
     tfinit: True
     dest: '{{ dir.iac }}/shaman'
     url: 'https://github.com/CodeSparta/shaman.git'
-    ref: "{{   lookup('env', 'TPDK_VERSION')  | default('master', true) }}"
+    ref: "{{   lookup('env', 'SPARTA_VERSION')  | default('master', true) }}"
