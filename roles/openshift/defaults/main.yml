@@ -13,20 +13,27 @@ openshift:
   provider: "{{ lookup('env', 'PROVIDER')    | default('aws',    true) }}"
   release: "{{  lookup('env', 'VERSION')     | default('latest', true) }}"
   release_url: "https://mirror.openshift.com/pub/openshift-v4/clients/ocp"
-  rhcos_url: "https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/latest/4.7.0"
+  rhcos_url: "https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/latest/latest"
+
 rhcos:
   aws:
     image: 'rhcos-aws.x86_64.vmdk.gz'
     download: "{{ lookup('env', 'RHCOS_AWS')   | default('false', true) | bool }}"
-  azure:
-    image: 'rhcos-azure.x86_64.vhd.gz'
-    download: "{{ lookup('env', 'RHCOS_AZURE') | default('false', true) | bool }}"
   gcp:
     image: 'rhcos-gcp.x86_64.tar.gz'
     download: "{{ lookup('env', 'RHCOS_GPC')   | default('false', true) | bool }}"
+  rhv:
+    image: 'rhcos-openstack.x86_64.qcow2.gz'
+    download: "{{ lookup('env', 'RHCOS_RHV')   | default('false', true) | bool }}"
+  azure:
+    image: 'rhcos-azure.x86_64.vhd.gz'
+    download: "{{ lookup('env', 'RHCOS_AZURE') | default('false', true) | bool }}"
   vmware:
     image: 'rhcos-vmware.x86_64.ova'
     download: "{{ lookup('env', 'RHCOS_VMW')   | default('false', true) | bool }}"
+  ibmcloud:
+    image: 'rhcos-ibmcloud.x86_64.qcow2.gz'
+    download: "{{ lookup('env', 'RHCOS_IBM')   | default('false', true) | bool }}"
   openstack:
     image: 'rhcos-openstack.x86_64.qcow2.gz'
     download: "{{ lookup('env', 'RHCOS_OSP')   | default('false', true) | bool }}"

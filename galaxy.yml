@@ -1,6 +1,6 @@
 namespace: sparta
 name: collector
-version: 0.0.14
+version: 0.0.15
 readme: README.md
 authors:
 - Kat Morgan <usrbinkat@codectl.io>

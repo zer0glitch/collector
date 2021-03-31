@@ -69,6 +69,7 @@
     cmd: |
       wall-e \
         --opm-path=/bin/opm \
+        --oc-cli-path=/bin/oc \
         --icsp-scope=namespace \
         --run-dir={{ dir.tmp }} \
         --catalog-version=1.0.0 \
