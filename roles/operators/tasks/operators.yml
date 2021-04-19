@@ -1,5 +1,18 @@
 ---
 - name: '{{ plugin.name }} | command:opm.index.prune | update operator index image '
+  debug:
+    msg: |
+      opm index prune \
+        --packages {{ item.value.list }} \
+        --from-index {{ item.value.image }} \
+        --tag {{ catalog.dest }}/{{ item.value.image.split('/')[1] }}/{{ item.value.image.split('/')[2] }}
+  with_dict:
+    - "{{ operators }}"
+  when:
+    - item.value.list is defined and item.value.list != "null" and item.value.list != ""
+    - item.value.image is defined and item.value.image != ""
+
+- name: '{{ plugin.name }} | command:opm.index.prune | update operator index image '
   command:
     cmd: |
       opm index prune \
