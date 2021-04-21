@@ -1,4 +1,4 @@
-namespace: sparta
+namespace: zer0glitch
 name: collector
 version: 0.0.16
 readme: README.md
@@ -16,8 +16,8 @@ dependencies:
   "containers.podman": ">=1.4.3"
 license:
 - GPL-3.0-only
-repository: http://github.com/codesparta/collector
-issues: https://github.com/CodeSparta/collector/issues
+repository: http://github.com/zer0glitch/collector
+issues: https://github.com/zer0glitch/collector/issues
 documentation: http://codectl.io
 homepage: http://codectl.io
 build_ignore:
