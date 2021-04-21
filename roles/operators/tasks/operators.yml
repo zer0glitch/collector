@@ -105,7 +105,7 @@
 - name: '{{ plugin.name }} | shell:cmd | Build Image Mirror Manifests'
   command:
     cmd: |
-      oc adm catalog mirror --insecure --manifests-only --to-manifests='{{ dir.tmp }}/manifests/{{ item.key }}-catalog-index-manifests' --icsp-scope='registry' --index-filter-by-os='.*' {{ catalog.dest }}/{{ item.value.image.split('/')[1] }}/{{ item.value.image.split('/')[2] }} {{ catalog.dest }}
+      oc adm catalog mirror --insecure --manifests-only --to-manifests='{{ dir.tmp }}/manifests/{{ item.key }}-catalog-index-manifests' --icsp-scope='registry' --filter-by-os='.*' {{ catalog.dest }}/{{ item.value.image.split('/')[1] }}/{{ item.value.image.split('/')[2] }} {{ catalog.dest }}
   args:
     chdir: '{{ dir.tmp }}/manifests/{{ item.key }}-catalog-index-manifests'
   with_dict:
