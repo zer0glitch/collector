@@ -1,6 +1,6 @@
 namespace: zer0glitch
 name: collector
-version: 0.0.16
+version: 0.0.19
 readme: README.md
 authors:
 - Kat Morgan <usrbinkat@codectl.io>
@@ -13,6 +13,7 @@ tags:
   - airgap
   - ocp
 dependencies:
+        #"containers.podman": ">=1.4.3"
   "containers.podman": ">=1.4.3"
 license:
 - GPL-3.0-only

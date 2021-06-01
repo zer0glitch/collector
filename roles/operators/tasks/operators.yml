@@ -77,6 +77,11 @@
   with_dict:
     - "{{ operators }}"
 
+    
+- name: debug
+  debug: msg="TESTESTSTESTTSETEST"
+
+
 - name: '{{ plugin.name }} | shell:wall-e | Build Manifests with wall-e opm wrapper | CREDIT: @arvin-a https://git.io/Jt9zz'
   shell:
     cmd: |
